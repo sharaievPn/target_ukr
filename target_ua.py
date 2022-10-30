@@ -59,7 +59,27 @@ def get_user_words() -> List[str]:
     for Windows.
     Note: the user presses the enter key after entering each word.
     """
-    pass
+    # stop with key combination 'cmd+d' ('ctrl+d' if ran in terminal)
+    word = ''
+    running = True
+    user_words = []
+    while running:
+        try:
+            print('Введіть слово: ')
+            word = input()
+        except:
+            running = False
+
+        if not word:
+            break
+
+        try:
+            if user_words.index(word) >= 0:
+                continue
+        except:
+            user_words.append(word)
+
+    return user_words
 
 
 def get_pure_user_words(user_words: List[str], letters: List[str], words_from_dict: List[str]) -> List[str]:
