@@ -89,6 +89,7 @@ def check_user_words(user_words, language_part, letters, dict_of_words):
     """
     correct_by_letters, missed_words, correct_words = [], [], []
     for user_word in user_words:
+        user_word = user_word.lower()
         if user_word[0] in ''.join(letters):
             correct_by_letters.append(user_word)
 
@@ -96,10 +97,10 @@ def check_user_words(user_words, language_part, letters, dict_of_words):
         if word[1] != language_part:
             continue
         try:
-            if correct_by_letters.index(word) >= 0:
-                correct_words.append(word)
+            if correct_by_letters.index(word[0]) >= 0:
+                correct_words.append(word[0])
         except:
-            missed_words.append(word)
+            missed_words.append(word[0])
 
     return correct_words, missed_words
 
@@ -116,7 +117,7 @@ def results():
         checker = check_user_words(user_words, language_class, board, get_words('base.lst', board))
         print(len(checker[0]))
         file.write(str(len(checker[0])) + '\n')
-        possible_words = [i for i in get_words('base.lst', board) if i[1] == language_class]
+        possible_words = [i[0] for i in get_words('base.lst', board) if i[1] == language_class]
         print(possible_words)
         file.write(str(possible_words) + '\n')
         print(checker[1])
