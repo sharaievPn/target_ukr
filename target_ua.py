@@ -82,15 +82,45 @@ def get_user_words() -> List[str]:
     return user_words
 
 
-def get_pure_user_words(user_words: List[str], letters: List[str], words_from_dict: List[str]) -> List[str]:
+def check_user_words(user_words, language_part, letters, dict_of_words):
     """
-    (list, list, list) -> list
-
     Checks user words with the rules and returns list of those words
     that are not in dictionary.
     """
-    pass
+    correct_by_letters, missed_words, correct_words = [], [], []
+    for user_word in user_words:
+        if user_word[0] in ''.join(letters):
+            correct_by_letters.append(user_word)
+
+    for word in dict_of_words:
+        if word[1] != language_part:
+            continue
+        try:
+            if correct_by_letters.index(word) >= 0:
+                correct_words.append(word)
+        except:
+            missed_words.append(word)
+
+    return correct_words, missed_words
 
 
 def results():
-    pass
+    board = generate_grid()
+    language_class = language_classes()
+    with open('result.txt', 'w') as file:
+        print(board)
+        file.write(str(board) + '\n')
+        print(language_class)
+        file.write(language_class + '\n')
+        user_words = get_user_words()
+        checker = check_user_words(user_words, language_class, board, get_words('base.lst', board))
+        print(len(checker[0]))
+        file.write(str(len(checker[0])) + '\n')
+        possible_words = [i for i in get_words('base.lst', board) if i[1] == language_class]
+        print(possible_words)
+        file.write(str(possible_words) + '\n')
+        print(checker[1])
+        file.write(str(checker[1]))
+
+
+results()
