@@ -122,6 +122,3 @@ def results():
         file.write(str(possible_words) + '\n')
         print(checker[1])
         file.write(str(checker[1]))
-
-
-results()
